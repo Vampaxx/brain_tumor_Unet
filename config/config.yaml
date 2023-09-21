@@ -1,0 +1,10 @@
+artifacts_root : artifacts
+
+data_ingestion  : 
+  root_dir      : artifacts/datas
+  image_path    : artifacts/datas/image
+  mask_path     : artifacts/datas/mask
+  csv_file_path : artifacts/datas/images_masks.csv
+  train_path    : artifacts/datas/train.csv
+  test_path     : artifacts/datas/test.csv
+  val_path      : artifacts/datas/val.csv
