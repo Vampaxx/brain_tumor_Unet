@@ -1,6 +1,7 @@
 import os
 import yaml
 import pandas as pd
+import tensorflow as tf
 
 import json
 import joblib
@@ -100,3 +101,5 @@ def convert_file_into_path(data_file_path,image_path,mask_path):
 
         return image_files,mask_files
     
+def save_model(path: Path, model):
+    model.save(path)
