@@ -93,13 +93,13 @@ def convert_file_into_path(data_file_path,image_path,mask_path):
     mask_files      = []
 
     for _, row in data.iterrows():
-        image_file  = os.path.join(image_path, f"{row[0]}")
-        mask_file   = os.path.join(mask_path, f"{row[1]}")
+        image_file  = os.path.join(image_path, f"{row.iloc[0]}")
+        mask_file   = os.path.join(mask_path, f"{row.iloc[1]}")
 
         image_files.append(image_file)
         mask_files.append(mask_file)
 
-        return image_files,mask_files
+    return image_files,mask_files
     
 def save_model(path: Path, model):
     model.save(path)
