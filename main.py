@@ -12,7 +12,7 @@ try:
     logging.info((f">>>>>>>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<\n\nx======x"))
 except Exception as e:
     raise CustomException(e,sys)
-
+    
 
 STAGE_NAME = "Prepare base model"
 try:

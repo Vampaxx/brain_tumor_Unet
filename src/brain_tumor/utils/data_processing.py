@@ -6,7 +6,7 @@ import tensorflow as tf
 def load_image(path:str):
     image = cv2.imread(path)
     image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-    image = tf.image.resize(image,(128,128))/255
+    image = tf.image.resize(image,(128,128))/255.0
     return image
 
 
@@ -28,16 +28,18 @@ def load_mask(path:str):
     return mask
 
 
-def load_data(path:str):
-    path = bytes.decode(path.numpy())
+def load_data(paths:str):
+    path = bytes.decode(paths.numpy())
+    image_path = path
+    mask_path  = path.split('.')[-2]+"_mask.tif"
+    # replace image with mask 
+    parts                   = mask_path.split('\\')
+    index_to_replace        = parts.index('image')
+    parts[index_to_replace] = 'mask'
+    mask_path               = '\\'.join(parts)
 
-    file_name  = path.split('\\')[-1].split('.')[0]
-    image_path = os.path.join('dataset','image',f'{file_name}.tif')
-    mask_path  = os.path.join('dataset','mask',f'{file_name}_mask.tif')
-
-    image = load_image(image_path)
-    mask  = load_mask(mask_path)
-
+    image       = load_image(image_path)
+    mask        = load_mask(mask_path)
     return image,mask
 
 def mappable_function(path:str):
@@ -45,10 +47,11 @@ def mappable_function(path:str):
     return result
 
 def _fixup_shape(images, mask):
-    images.set_shape([128, 128, 3])
-    mask.set_shape([128, 128, 1])
-    # weights.set_shape([None])
+
+    images.set_shape([128,128,3])
+    mask.set_shape([128,128,1])
     return images, mask
+
 def mapping_fixup(image,mask):
     result = tf.py_function(_fixup_shape,[image,mask],(tf.float32,tf.float32))
     return result
