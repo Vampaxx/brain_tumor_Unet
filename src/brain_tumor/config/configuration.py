@@ -64,14 +64,28 @@ class ConfugarationManager:
             image_path      = Path(config_.image_path),
             mask_path       = Path(config_.mask_path))
         return self.data_processing_config
+    
+    
+    def get_prepare_callback_config(self) -> PrepareCallbacksConfig:
+        config_         = self.config_.prepare_callbacks
+        model_ckpt_dir  = os.path.dirname(config_.checkpoint_model_filepath)
+        create_directories([Path(model_ckpt_dir),
+                            Path(config_.tensorboard_root_log_dir)])
+        prepare_callbacks_config    = PrepareCallbacksConfig(
+            root_dir                    = Path(config_.root_dir),
+            tensorboard_root_log_dir    = Path(config_.tensorboard_root_log_dir),
+            checkpoint_model_filepath   = Path(config_.checkpoint_model_filepath))
+        return prepare_callbacks_config
+
 
 if __name__ == "__main__":
     obj = ConfugarationManager()
-    file_paths = obj.get_data_ingestion_config()
+    #file_paths = obj.get_data_ingestion_config()
     #ingegestion = DataIngestion(config_=file_paths)
-    train_data = obj.converting_image_and_mask_tensor(dataset_type='train')
-    print(train_data[0][:10])
+    #train_data = obj.converting_image_and_mask_tensor(dataset_type='train')
+    #print(train_data[0][:10])
     #obj.get_prepare_callback_config()
+    obj.get_prepare_callback_config()
     
 
 
