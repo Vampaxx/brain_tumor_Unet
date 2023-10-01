@@ -1,5 +1,6 @@
 import os
 import sys
+import tensorflow as tf
 from pathlib import Path
 from dataclasses import dataclass
 
@@ -46,5 +47,15 @@ class PrepareCallbacksConfig:
     tensorboard_root_log_dir    : Path
     checkpoint_model_filepath   : Path
 
-    
-    
+
+@dataclass(frozen=True)
+class TrainigConfig:
+    root_dir                : Path
+    trained_model_path      : Path
+    updated_base_model_path : Path
+    data_for_pipeline       : tf.data.Dataset
+    params_epochs           : int
+    params_batch_size       : int
+    params_is_augumentation : bool
+    params_image_size       : list
+    params_mask_size        : list
