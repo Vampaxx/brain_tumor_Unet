@@ -59,3 +59,13 @@ class TrainigConfig:
     params_is_augumentation : bool
     params_image_size       : list
     params_mask_size        : list
+
+
+@dataclass(frozen=True)
+class EvaluationConfig:
+    path_of_model       : Path
+    test_data           : tf.data.Dataset
+    all_params          : dict
+    params_image_size   : list
+    params_mask_size    : list
+    params_batch_size   : int

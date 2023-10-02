@@ -3,14 +3,18 @@ import pandas as pd
 import tensorflow as tf
 from src.brain_tumor.logger import logging
 from src.brain_tumor.exception import CustomException
-from src.brain_tumor.utils.common import read_yaml,create_directories,convert_file_into_path
+from src.brain_tumor.utils.common import (read_yaml,
+                                          create_directories,
+                                          convert_file_into_path,
+                                          save_json)
 from src.brain_tumor.constants import *
 from src.brain_tumor.components.data_procesing import DataProcessing
 from src.brain_tumor.entity.config_entity import (DataIngestionConfig,
                                                   PrepareBaseModelConfig,
                                                   PrepareCallbacksConfig,
                                                   PreprocessingConfig,
-                                                  TrainigConfig)
+                                                  TrainigConfig,
+                                                  EvaluationConfig)
 
 class ConfugarationManager:
 
@@ -18,7 +22,6 @@ class ConfugarationManager:
                  config_file_path=CONFIG_FILE_PATH,
                  params_file_path=PARAMS_FILE_PATH):
         
-        # Assuming read_yaml and create_directories are custom functions in your module
         self.config_ = read_yaml(config_file_path)
         self.params_ = read_yaml(params_file_path)
         create_directories([self.config_.artifacts_root])
@@ -101,6 +104,21 @@ class ConfugarationManager:
             params_mask_size                = params.MASK_SIZE )
         
         return training_config
+    
+    def get_validation_config(self) -> EvaluationConfig:
+        trainig         = self.config_.training 
+        self.data_processing.get_processing_data_path(dataset_type='test')
+        
+        eval_config     = EvaluationConfig(
+            path_of_model       = Path(trainig.trained_model_path),
+            test_data           = self.data_processing.get_processing_pipeline(buffer_size=self.params_.BUFFER_SIZE,
+                                                                           batch_size=self.params_.BATCH_SIZE),
+            all_params          = self.params_,
+            params_image_size   = self.params_.IMAGE_SIZE,
+            params_mask_size    = self.params_.MASK_SIZE,
+            params_batch_size   = self.params_.BATCH_SIZE
+        )
+        return eval_config
 
 
 if __name__ == "__main__":
@@ -110,7 +128,7 @@ if __name__ == "__main__":
     #train_data = obj.converting_image_and_mask_tensor(dataset_type='train')
     #print(train_data[0][:10])
     #obj.get_prepare_callback_config()
-    #obj.get_prepare_callback_config()
+    #obj.get_validation_config()
     
 
 
