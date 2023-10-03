@@ -12,26 +12,19 @@ class DataIngestionTrainingPipeline:
 
     def __init__(self):
         pass
-    def main(self,dataset_type=None):
-        self.dataset_type           = dataset_type
+    def main(self):
         config                      = ConfugarationManager()
         data_ingestion_config       = config.get_data_ingestion_config()
         data_ingestion              = DataIngestion(config_=data_ingestion_config)
         train_arr,test_arr,val_arr  = data_ingestion.data_ingestion_initialization()
-
-        if dataset_type is None:
-            pass
-        else:
-            data_tensor                = config.converting_image_and_mask_tensor(self.dataset_type)
-            return data_tensor
 
 if __name__ == "__main__":
     try:
 
         logging.info(f">>>>>>>>>>>>>>> stage {STAGE_NAME} started <<<<<<<<<<<<<<<")
         obj     = DataIngestionTrainingPipeline()
-        train = obj.main(dataset_type='train')
-        print(len(train[0]))
+        obj.main()
+
         logging.info((f">>>>>>>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<\n\nx======x"))
     except Exception as e:
         raise CustomException(e,sys)
