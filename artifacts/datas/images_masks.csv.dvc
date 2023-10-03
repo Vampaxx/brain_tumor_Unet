@@ -1,0 +1,5 @@
+outs:
+- md5: 200fd524c10685b6aca8cecc8d01aa0a
+  size: 249498
+  hash: md5
+  path: images_masks.csv
