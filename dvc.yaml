@@ -1,0 +1,59 @@
+stages:
+  data_ingestion:
+    cmd : python src\brain_tumor\pipeline\stage_01_data_ingestion.py
+    deps :
+      - src\brain_tumor\pipeline\stage_01_data_ingestion.py
+      - config\config.yaml
+    outs : 
+      - artifacts\datas\test.csv
+      - artifacts\datas\train.csv
+      - artifacts\datas\val.csv
+
+
+  prepare_base_model:
+    cmd : python src\brain_tumor\pipeline\stage_02_prepare_base_model.py
+    deps:
+      - src\brain_tumor\pipeline\stage_02_prepare_base_model.py
+      - config\config.yaml
+    params : 
+      - IMAGE_SIZE
+      - MASK_SIZE
+      - LEARNING_RATE
+    outs :
+      - artifacts\prepare_base_model
+  
+
+  training:
+    cmd : python src\brain_tumor\pipeline\stage_04_training_model.py
+    deps : 
+      - src\brain_tumor\pipeline\stage_04_training_model.py
+      - src\brain_tumor\components\prepare_callbacks.py
+      - src\brain_tumor\components\data_procesing.py
+      - artifacts\prepare_base_model
+      - artifacts\datas
+      - config\config.yaml
+    params :
+      - IMAGE_SIZE
+      - MASK_SIZE
+      - BATCH_SIZE
+      - EPOCHS
+      - BUFFER_SIZE
+      - AUGMENTATION
+    outs :
+      - artifacts\training\model.h5
+
+
+  evaluation:
+    cmd : python src\brain_tumor\pipeline\stage_05_model_evaluation.py
+    deps : 
+      - src\brain_tumor\pipeline\stage_05_model_evaluation.py
+      - artifacts\training\model.h5
+      - artifacts\datas
+      - config\config.yaml
+    params :
+      - IMAGE_SIZE
+      - MASK_SIZE
+      - BATCH_SIZE
+    metrics :
+    - scores.json:
+        cache : false
