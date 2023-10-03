@@ -1,3 +1,6 @@
 /image
 /mask
 /images_masks.csv
+/test.csv
+/train.csv
+/val.csv
