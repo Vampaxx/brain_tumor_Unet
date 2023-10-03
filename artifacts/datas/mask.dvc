@@ -1,0 +1,6 @@
+outs:
+- md5: 020df0c5bcfe12b625e8652cba7386a8.dir
+  size: 258316034
+  nfiles: 3929
+  hash: md5
+  path: mask
