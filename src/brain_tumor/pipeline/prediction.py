@@ -22,7 +22,9 @@ class PredictionPipeline:
         ex_img          = tf.expand_dims(img,axis=0)
         pred            = trained_model.predict(ex_img)
         pred            = tf.squeeze(pred,axis=0).numpy()
-        return [{'image'    : pred  }]
+        #return [{'image'    : pred  }]
+        return pred
+
     
 
 if __name__ == "__main__":
