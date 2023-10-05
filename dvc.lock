@@ -9,8 +9,8 @@ stages:
       size: 951
     - path: src\brain_tumor\pipeline\stage_01_data_ingestion.py
       hash: md5
-      md5: 5c9648056de7565e0eab9ea34a96e385
-      size: 1065
+      md5: 31fce35d79970ca67d9f85a15326b31c
+      size: 1067
     outs:
     - path: artifacts\datas\test.csv
       hash: md5
