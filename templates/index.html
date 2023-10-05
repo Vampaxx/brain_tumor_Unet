@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="Viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="">
+
+        <title>Brain Tumor</title>
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="/static/css/form_upload.css" rel="stylesheet" >
+    </head>
+    <body class="text-center">
+        <form class="form-upload" method="POST" enctype="multipart/form-data">
+            <h1 class="h3 mb-3 font--weight-normal">Upload the Image</h1>
+            <input type="file" id="image" name="image" class="form-control" required autofocus>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Predict..</button>
+            <br>
+            {% if image_loc%}
+                <img src="static\pred_mask\{{image_loc}}" alt="Mask prediction" width="350" height="350">
+                <h3 class="h3 mb-3 font-weight-normal">Prediction is : {{prediction}}</h3>
+            {%endif%}
+        
+        </form>
+    </body>
+</html>
