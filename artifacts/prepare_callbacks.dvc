@@ -1,0 +1,6 @@
+outs:
+- md5: f63f45caa6f20b33455cfc879d680899.dir
+  size: 28556165
+  nfiles: 3
+  hash: md5
+  path: prepare_callbacks
