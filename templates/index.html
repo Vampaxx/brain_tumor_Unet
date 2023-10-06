@@ -1,27 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="Viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="">
 
-        <title>Brain Tumor</title>
-        <link href="/static/css/bootstrap.min.css" rel="stylesheet" >
-        <link href="/static/css/form_upload.css" rel="stylesheet" >
-    </head>
-    <body class="text-center">
-        <form class="form-upload" method="POST" enctype="multipart/form-data">
-            <h1 class="h3 mb-3 font--weight-normal">Upload the Image</h1>
-            <input type="file" id="image" name="image" class="form-control" required autofocus>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Predict..</button>
-            <br>
-            {% if image_loc%}
-                <img src="static\pred_mask\{{image_loc}}" alt="Mask prediction" width="350" height="350">
-                <h3 class="h3 mb-3 font-weight-normal">Prediction is : {{prediction}}</h3>
-            {%endif%}
-        
-        </form>
-    </body>
+    <title>Brain Tumor</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/form_upload.css" rel="stylesheet">
+    <style>
+        /* Style for the image container */
+        .image-container {
+            display: flex;
+            flex-direction: row; 
+            align-items: center; 
+            margin-top: 20px; 
+        }
+
+        /* Style for individual image items */
+        .image-item {
+            flex: 0 0 50%; 
+            max-width: 350px; 
+            margin-right: 60px;
+            margin-left: 10px; 
+        }
+
+        /* Style for the mask-item */
+        .mask-item {
+            flex: 0 0 50%; 
+            max-width: 350px; 
+        }
+    </style>
+</head>
+<body class="text-center">
+<form class="form-upload" method="POST" enctype="multipart/form-data">
+    <h1 class="h3 mb-3 font-weight-normal">Upload the Image</h1>
+    <input type="file" id="image" name="image" class="form-control" required autofocus>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Predict..</button>
+    <br>
+    {% if image_loc %}
+    <div class="image-container">
+        <div class="image-item">
+            <img src="static/upload/{{ image_loc }}" alt="Image_file" width="350" height="350">
+        </div>
+        <div class="mask-item">
+            <img src="static/pred_mask/{{ mask_loc }}" alt="Mask prediction" width="350" height="350">
+        </div>
+    </div>
+    <h3 class="h3 mb-3 font-weight-normal">Prediction is: {{ prediction }}</h3>
+    {% endif %}
+</form>
+</body>
 </html>
